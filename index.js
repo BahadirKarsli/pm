@@ -2,7 +2,6 @@ function updateActivityTypeOptions() {
     const academicActivityTypeSelect = document.querySelector('[name="academicActivityType"]');
     const activityTypeSelect = document.querySelector('#activityTypeSelect');
     const selectedAcademicActivityType = academicActivityTypeSelect.value;
-
     const options = {
         'Yayın': [
             ['1.1.a', 'WoS Quartile Q1'],
@@ -48,7 +47,6 @@ function updateActivityTypeOptions() {
             ['5.8.a', 'Güzel sanatlardaki eserlerin ulusal kaynak veya yayın organlarında yer alması veya gösterime ya da dinletime girmesi']
         ]
     };
-
     // Add new options based on selected academic activity type
     const selectedOptions = options[selectedAcademicActivityType] || [];
     activityTypeSelect.innerHTML = '';
@@ -56,7 +54,6 @@ function updateActivityTypeOptions() {
     defaultOption.value = '';
     defaultOption.innerText = 'Seçiniz...';
     activityTypeSelect.appendChild(defaultOption);
-
     selectedOptions.forEach(([value, label]) => {
         const option = document.createElement('option');
         option.value = value;
@@ -64,7 +61,6 @@ function updateActivityTypeOptions() {
         activityTypeSelect.appendChild(option);
     });
 }
-
 function saveForm() {
     const form = document.getElementById("applicationForm");
     const formData = new FormData(form);
@@ -74,14 +70,11 @@ function saveForm() {
     }
     // Store data in local storage
     localStorage.setItem('formData', JSON.stringify(data));
-
     // Handle successful response from server
     console.log("Form data saved to local storage");
 }
-
 const form = document.getElementById("applicationForm");
 form.addEventListener('input', saveForm);
-
 function loadLocalStorage() {
     const formData = JSON.parse(localStorage.getItem('formData'));
     if (formData) {
@@ -94,12 +87,38 @@ function loadLocalStorage() {
         }
     }
 }
-
 function clearForm() {
     const form = document.getElementById("applicationForm");
     form.reset();
     localStorage.removeItem('formData');
     console.log("Form data local storage cleared");
+}
+
+function showModal(event) {
+    event.preventDefault();
+
+    var formData = 
+    {
+        name: $('input[name="name"]').val(),
+        surname: $('input[name="surname"]').val(),
+        academicTitle: $('select[name="academicTitle"]').val(),
+        faculty: $('select[name="faculty"]').val(),
+        department: $('input[name="department"]').val(),
+        basicArea: $('input[name="basicArea"]').val(),
+        scientificArea: $('input[name="scientificArea"]').val(),
+        academicActivityType: $('select[name="academicActivityType"]').val(),
+        activityType: $('select[name="activityType"]').val(),
+        workName: $('input[name="workName"]').val(),
+    };
+
+    for (var key in formData) {
+        if (formData[key] === "") {
+            alert("Lütfen bütün bilgileri doldurunuz.");
+            return;
+        }
+    }
+
+    $('#successModal').modal('show');
 }
 
 window.addEventListener('load', () => {
@@ -112,4 +131,4 @@ window.addEventListener('load', () => {
     }
 });
 
-window.addEventListener('load', loadLocalStorage);
+
